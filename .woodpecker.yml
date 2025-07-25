@@ -12,7 +12,6 @@ matrix:
 steps:
   - name: build
     image: *kaniko_plugin
-    group: build
     settings:
       repo: nold360/borgserver
       dockerfile: Dockerfile
