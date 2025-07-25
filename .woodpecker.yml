@@ -24,4 +24,4 @@ steps:
         from_secret: docker_password
     when:
       - branch: master
-      - event: cron
+        event: [push, cron]
