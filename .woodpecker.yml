@@ -4,6 +4,8 @@ variables:
 
 matrix:
   include:
+    - BASE: unstable-slim
+      TAGS: '[ "unstable" ]'
     - BASE: trixie-slim
       TAGS: '[ "trixie", "1.4" ]'
     - BASE: bookworm-slim
