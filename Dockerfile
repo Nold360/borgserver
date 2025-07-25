@@ -19,7 +19,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 		mkdir /home/borg/.ssh && \
 		chmod 700 /home/borg/.ssh && \
 		chown borg:borg /home/borg/.ssh && \
-		mkdir /run/sshd && \
+		mkdir -p /run/sshd && \
 		rm -f /etc/ssh/ssh_host*key* && \
 		rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
 
