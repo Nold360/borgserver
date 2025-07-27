@@ -1,24 +1,48 @@
 ---
 matrix:
   include:
-    - BASE: unstable-slim
-      TAGS: '[ "unstable" ]'
+    # - BASE: unstable-slim
+    #   TAGS: '[ "unstable" ]'
     - BASE: trixie-slim
       TAGS: '[ "trixie", "1.4" ]'
-    - BASE: bookworm-slim
-      TAGS: '[ "bookworm", "1.2", "latest" ]'
+    # - BASE: bookworm-slim
+    #   TAGS: '[ "bookworm", "1.2", "latest" ]'
 
 steps:
-  publish-release:
+  - name: test-build
     image: woodpeckerci/plugin-docker-buildx
     settings:
-      repo: nold360/borgserver
+      # dry-run: true
+      repo: ghcr.io/nold360/borgserver
       platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
-      registry: docker.io
+      registry: https://ghcr.io/v1/
+    when:
+      - event: [push, manual, pull_request]
+        branch: 
+          exclude: [ master ]
+
+  - name: build-and-release
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      repo: nold360/borgserver,ghcr.io/nold360/borgserver
       tags: ${TAGS}
+      platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
       build_args:
-        - BASE_IMAGE=debian:${BASE}
-      username: 
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
+        BASE_IMAGE: debian:${BASE}
+      logins:
+        - registry: https://index.docker.io/v1/
+          username: 
+            from_secret: docker_username
+          password:
+            from_secret: docker_password
+
+        - registry: https://ghcr.io/v1/
+          repo: ghcr.io/nold360/borgserver
+          username: 
+            from_secret: docker_username
+          password:
+            from_secret: gh_push_token
+    when:
+      - branch: master
+        event: [ cron, manual ]
+
