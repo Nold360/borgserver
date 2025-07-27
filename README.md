@@ -133,9 +133,17 @@ And create your first backup!
  $ borg create backup:my_first_borg_repo::documents-2017-11-01 /home/user/MyImportentDocs
 ```
 
-## Tags & Borg Versions
+## Docker Releases
 
-All images are freshly built every week & published as `nold360/borgserver` with the following tags:
- - Latest / Stable - [borg version](https://packages.debian.org/stable/borgbackup): `bookworm`, `latest`
- - Testing - [borg version](https://packages.debian.org/trixie/borgbackup): `trixie`
- - Unstable - [borg version](https://packages.debian.org/sid/borgbackup): `unstable`
+All images are freshly built and published to both Docker Hub and GitHub Container Registry with the following tags:
+  - Stable - [borg version](https://packages.debian.org/stable/borgbackup): `bookworm`, `latest`
+  - Testing - [borg version](https://packages.debian.org/trixie/borgbackup): `trixie`
+  - Unstable - [borg version](https://packages.debian.org/sid/borgbackup): `unstable`
+
+### Docker Hub
+- `nold360/borgserver`
+
+### GitHub Container Registry
+- `ghcr.io/nold360/borgserver`
+
+All images are built every week and include the latest security updates and bug fixes. The same tags are pushed to both Docker Hub and GitHub Container Registry.

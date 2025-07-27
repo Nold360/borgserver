@@ -1,7 +1,4 @@
 ---
-variables:
-  - &kaniko_plugin 'plugins/kaniko:1.6'
-
 matrix:
   include:
     - BASE: unstable-slim
@@ -11,19 +8,42 @@ matrix:
     - BASE: bookworm-slim
       TAGS: '[ "bookworm", "1.2", "latest" ]'
 
+variables:
+  - &build-settings
+    repo: nold360/borgserver,ghcr.io/nold360/borgserver
+    tags: ${TAGS}
+    platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64/v8
+    build_args:
+      BASE_IMAGE: debian:${BASE}
+
 steps:
-  - name: build
-    image: *kaniko_plugin
+  - name: test-build
+    image: woodpeckerci/plugin-docker-buildx
     settings:
-      repo: nold360/borgserver
-      dockerfile: Dockerfile
-      build_args:
-        - BASE_IMAGE=debian:${BASE}
-      tags: ${TAGS}
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
+      dry-run: true
+      <<: *build-settings
     when:
-      - branch: [master]
-        event: [push, cron, manual]
+      - event: [manual, push]
+        branch: 
+          exclude: [ master ]
+
+  - name: build-and-release
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      <<: *build-settings
+      logins:
+        - registry: https://index.docker.io/v1/
+          username: 
+            from_secret: docker_username
+          password:
+            from_secret: docker_password
+
+        - registry: https://ghcr.io/v1/
+          repo: ghcr.io/nold360/borgserver
+          username: 
+            from_secret: docker_username
+          password:
+            from_secret: gh_push_token
+    when:
+      - branch: master
+        event: [cron, manual, push]
