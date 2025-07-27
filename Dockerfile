@@ -11,7 +11,7 @@ VOLUME /sshkeys
 # Volume for borg repositories
 VOLUME /backup
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
 		borgbackup openssh-server && apt-get clean && \
