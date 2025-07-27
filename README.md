@@ -133,9 +133,9 @@ And create your first backup!
  $ borg create backup:my_first_borg_repo::documents-2017-11-01 /home/user/MyImportentDocs
 ```
 
-## Tags
+## Tags & Borg Versions
 
 All images are freshly built every week & published as `nold360/borgserver` with the following tags:
- - Next / Unstable [borg 1.2.0]: `bookworm`, `1.2.0`
- - Latest / Stable [borg 1.1.16]: `bullseye`, `1.1.16`, `latest`
- - Legacy / Buster [borg 1.1.9 ]: `buster`, `1.1.9`
+ - Latest / Stable - [borg version](https://packages.debian.org/stable/borgbackup): `bookworm`, `latest`
+ - Testing - [borg version](https://packages.debian.org/trixie/borgbackup): `trixie`
+ - Unstable - [borg version](https://packages.debian.org/sid/borgbackup): `unstable`
