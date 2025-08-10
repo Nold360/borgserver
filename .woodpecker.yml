@@ -4,9 +4,9 @@ matrix:
     - BASE: unstable-slim
       TAGS: '[ "unstable" ]'
     - BASE: trixie-slim
-      TAGS: '[ "trixie", "1.4" ]'
+      TAGS: '[ "trixie", "1.4", "latest" ]'
     - BASE: bookworm-slim
-      TAGS: '[ "bookworm", "1.2", "latest" ]'
+      TAGS: '[ "bookworm", "1.2", "oldstable" ]'
 
 variables:
   - &build-settings
